@@ -1,0 +1,22 @@
+{
+  "name": "lodown-bunnydunker",
+  "version": "1.0.1",
+  "description": "my own lodown library",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "istanbul cover _mocha -- test/ -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BunnyDunker/lodown.git"
+  },
+  "author": "Eliott Frilet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BunnyDunker/lodown/issues"
+  },
+  "homepage": "https://github.com/BunnyDunker/lodown#readme"
+}
