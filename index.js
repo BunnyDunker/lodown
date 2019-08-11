@@ -7,6 +7,8 @@
  * identity: Designed return the given value .
  * 
  * @param {Any datatype} value: The value to return.
+ * 
+ * @return {Any datatype} The value passed as the parameter.
  */
 function identity(value) {
     return value;
@@ -17,6 +19,8 @@ function identity(value) {
  * typeOF: Designed return the type of the given value.
  * 
  * @param {Any datatype} value: The value to examine and return the type of.
+ * 
+ * @return {String} The type of value.
  */
 function typeOf(value) {
     if (Array.isArray(value)) {
@@ -37,22 +41,25 @@ function typeOf(value) {
  * 
  * @param {Array} array: The Array over which to iterate.
  * @param {Number} number: The number of values to take from the beginning of 
- * the array.
+ * the array. If number is larger than array length it is defaulted to the length,
+ * and if the number is not a number or undefined default it to 0.
+ * 
+ * @return  {Array} the first Number number of values in the array.
  */
 function first(array, number) {
-    var newArray = []; // the storage array for the first values
-    var length = array.length; // variable storing the length of the array
-    if (typeOf(array) !== 'array') { // if the argument passed for array is not an array, return an empty array
+    var newArray = [];
+    var length = array.length;
+    if (typeOf(array) !== 'array') {
         return newArray;
     }
-    else if (number === undefined || typeOf(number) !== 'number') { // otherwise if the number is not given or is not a number only return the last element
+    else if (number === undefined || typeOf(number) !== 'number') {
         return array[0];
     }
     else {
-        if (number > length) { // if the bnumber given is greater than the length make it equal to the length
-            number = length; // this is so the following loop does not go out of bounds
+        if (number > length) {
+            number = length;
         }
-        for (var i = 0; i < number; i++) { // loops through the array pushing each value up to the new array 
+        for (var i = 0; i < number; i++) {
             newArray.push(array[i]);
         }
         return newArray;
@@ -66,23 +73,27 @@ function first(array, number) {
  * 
  * @param {Array} array: The Array over which to iterate.
  * @param {Number} number: The number of values to take from the end of the
- * array (to keep in proper order).
+ * array (to keep in proper order). If number is larger than array length it is 
+ * defaulted to the length, and if the number is not a number or undefined 
+ * default it to the last element in the array.
+ * 
+ * @return {Array} The last Number number of values in the array.
  */
 function last(array, number) {
-    var newArray = []; // the storage array for the last values
-    var length = array.length; // variable storing the length of the array
-    if (typeOf(array) !== 'array') { // if the argument passed for array is not an array, return an empty array
+    var newArray = [];
+    var length = array.length;
+    if (typeOf(array) !== 'array') {
         return newArray;
     }
-    else if (number === undefined || typeOf(number) !== 'number') { // otherwise if the number is not given or is not a number only return the last element
+    else if (number === undefined || typeOf(number) !== 'number') {
         return array[length - 1];
     }
     else {
-        if (number > length) { // if the bnumber given is greater than the length make it equal to the length
-            number = length; // this is so the following loop does not go out of bounds
+        if (number > length) {
+            number = length;
         }
-        for (var i = length - number; i < length; i++) { // loops through the array starting at the length minues the total number
-            newArray.push(array[i]); // pushing each following value into the new array
+        for (var i = length - number; i < length; i++) {
+            newArray.push(array[i]);
         }
         return newArray;
     }
@@ -96,10 +107,12 @@ function last(array, number) {
  * @param {Array} array: The Array over which to iterate.
  * @param {Any Datatype} value: The value for which to return the first index
  * at which it appears in the array.
+ * 
+ * @return {Number} The index of the first occurrence of value in the array.
  */
 function indexOf(array, value) {
-    for (var i = 0; i < array.length; i++) { // loops through the whole array
-        if (array[i] === value) { // if the array at the given index is the same as the value return the index
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === value) {
             return i;
         }
     }
@@ -108,19 +121,19 @@ function indexOf(array, value) {
 
 
 /**
- * contains: Designed to loop over an Array and return if the given value
+ * contains: Designed to loop over an Array and return true if the given value
  * appears in the array.
  * 
  * @param {Array} array: The Array over which to iterate.
  * @param {Any datatype} value: The value for which to return true if it
  * appears in the array.
+ * 
+ * @return {Boolean} A boolean indicating whether or not value is in the array.
  */
 function contains(array, value) {
-    var checker = false; // initializes the checker to false
+    var checker = false;
     for (var i = 0; i < array.length; i++) {
-        // loops through the whole array
         checker = array[i] === value ? true : checker;
-        // if the value is in the array the checker will flip to true otherwise it will stay the same
     }
     return checker;
 }
@@ -133,7 +146,7 @@ function contains(array, value) {
  * 
  * @param {Array or Object} collection: The collection over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
- * collection
+ * collection.
  */
 function each(collection, func) {
     if (Array.isArray(collection)) {
@@ -154,11 +167,13 @@ function each(collection, func) {
  * duplicate values.
  * 
  * @param {Array} array: The Array over which to iterate.
+ * 
+ * @return {Array} An array with without duplicate values.
  */
 function unique(array) {
-    var newArray = []; // the new array to be filled with unique elements
-    each(array, function(element, index, array) { // use of the higher order loop
-        if (indexOf(array, element) === index) { //the function to perform on each element of the array
+    var newArray = [];
+    each(array, function(element, index, array) {
+        if (indexOf(array, element) === index) {
             newArray.push(element);
         }
     });
@@ -173,11 +188,13 @@ function unique(array) {
  * @param {Array} array: The Array over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
  * collection.
+ * 
+ * @return {Array} An array with only values that pass the through the filter.
  */
 function filter(array, func) {
-    var newArr = []; // the new array to be filled with elements that resolve to true
-    each(array, function(element, index, array) { // higher order loop
-        if (func(element, index, array)) { // if the function performed on the current element returns true add it
+    var newArr = [];
+    each(array, function(element, index, array) {
+        if (func(element, index, array)) {
             newArr.push(element);
         }
     });
@@ -192,11 +209,13 @@ function filter(array, func) {
  * @param {Array} array: The Array over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
  * collection.
+ * 
+ * @return {Array} An array with only values that didn't pass through the filter.
  */
 function reject(array, func) {
-    var newArr = []; // the new array to be filled with elements that resolve to false
-    each(array, function(element, index, array) { // higher order loop
-        if (!func(element, index, array)) { // if the function performed on the current element returns flase add it
+    var newArr = [];
+    each(array, function(element, index, array) {
+        if (!func(element, index, array)) {
             newArr.push(element);
         }
     });
@@ -211,13 +230,15 @@ function reject(array, func) {
  * @param {Array} array: The Array over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
  * collection.
+ * 
+ * @return {Array} An array containing two sub arrays with the results of filter and reject in that order.
  */
 function partition(array, func) {
-    var newTrue = filter(array, function(element, index, array) { // saves the filtered (true) values
-        return func(element, index, array); // directly passes the given function to the filter
+    var newTrue = filter(array, function(element, index, array) {
+        return func(element, index, array);
     });
-    var newFalse = reject(array, function(element, index, array) { // saves the rejected (false) values
-        return func(element, index, array); // directly passes the given function to the reject
+    var newFalse = reject(array, function(element, index, array) {
+        return func(element, index, array);
     });
     var newArr = [newTrue, newFalse];
     return newArr;
@@ -232,11 +253,13 @@ function partition(array, func) {
  * @param {Array or Object} collection: The collection over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
  * collection.
+ * 
+ * @return {Array} An array with the values from the collection modified by func.
  */
 function map(collection, func) {
-    var newArr = []; // the storage array
-    each(collection, function(element, index, collection) { // the higher order loop
-        newArr.push(func(element, index, collection)); // push each element returned by the given function
+    var newArr = [];
+    each(collection, function(element, index, collection) {
+        newArr.push(func(element, index, collection));
     });
     return newArr;
 }
@@ -249,10 +272,12 @@ function map(collection, func) {
  * @param {Array} array: The collection over which to iterate.
  * @param {String} property: The property of the Objects for which to save the
  * values of.
+ * 
+ * @return {Array} An array with values with the property key from the array of objects.
  */
 function pluck(array, property) {
     var newArr = map(array, function(element, index, array) {
-        return element[property]; // the function passed to map saying I want to return the value of each element at property key
+        return element[property];
     });
     return newArr;
 }
@@ -264,19 +289,21 @@ function pluck(array, property) {
  * 
  * @param {Array or Object} collection: The collection over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
- * collection
+ * collection.
+ * 
+ * @return {Boolean} A boolean indicating if every item in collection passes the func filter function.
  */
 function every(collection, func) {
-    var bool = true; // boolean meant as a toggle (if a single one is false the whole thing returns false)
-    each(collection, function(element, index, collection) { // higher order loop with function filled with if else cases
-        if (func === undefined) { // if no function is passed the collection's values should evaluate to true or false
+    var bool = true;
+    each(collection, function(element, index, collection) {
+        if (func === undefined) {
             if (element === false) {
-                bool = false; // flips the toggle
+                bool = false;
             }
         }
         else {
-            if (func(element, index, collection) === false) { // evaluates the function given the element
-                bool = false; // flips the toggle
+            if (func(element, index, collection) === false) {
+                bool = false;
             }
 
         }
@@ -292,18 +319,20 @@ function every(collection, func) {
  * @param {Array or Object} collection: The collection over which to iterate.
  * @param {Function} func: The Function to be applied to each value in the 
  * collection
+ * 
+ * @return {Boolean} A boolean indicating if at least one item in collection passes the func filter function.
  */
 function some(collection, func) {
-    var bool = false; // boolean meant as a toggle (if a single one is true the whole thing returns true) 
-    each(collection, function(element, index, collection) { // higher order loop with function filled with if else cases
-        if (func === undefined) { // if no function is passed the collection's values should evaluate to true or false
+    var bool = false;
+    each(collection, function(element, index, collection) {
+        if (func === undefined) {
             if (element === true) {
-                bool = true; // flips the toggle
+                bool = true;
             }
         }
         else {
-            if (func(element, index, collection) === true) { // evaluates the function given the element
-                bool = true; // flips the toggle
+            if (func(element, index, collection) === true) {
+                bool = true;
             }
 
         }
@@ -322,19 +351,21 @@ function some(collection, func) {
  * collection.
  * @param {Any datatype} seed: The optional seed to start using the func
  * Function with.
+ * 
+ * @return {Any datatype} The value of array reduced with the func function.
  */
 function reduce(array, func, seed) {
-    var previousResult; // initializing the storage variable
-    if (seed !== undefined) { // if the seed is given
-        previousResult = seed; // assigns the seed to the storage variable as a starting value 
-        each(array, function(element, index, array) { // performs the function on each element of the array
-            previousResult = func(previousResult, element, index); // stores the result of the function back into the storage variable
+    var previousResult;
+    if (seed !== undefined) {
+        previousResult = seed;
+        each(array, function(element, index, array) {
+            previousResult = func(previousResult, element, index);
         });
     }
-    else if (seed === undefined) { // if the seed is not given
-        previousResult = array[0]; // assigns the first value of the array to the storage variable
-        each(array.slice(1), function(element, index, array) { // slightly modified from the section above due to using the first value as a seed
-            previousResult = func(previousResult, element, index + 1); // must start the loop at the second index so slice and index + 1
+    else if (seed === undefined) {
+        previousResult = array[0];
+        each(array.slice(1), function(element, index, array) {
+            previousResult = func(previousResult, element, index + 1);
         });
     }
     return previousResult;
@@ -347,11 +378,13 @@ function reduce(array, func, seed) {
  * @param {Object} object: The Object in which to add key value pairs.
  * @param {Array of Objects} ...objArray: The rest parameter filled with 
  * Objects and used as an array.
+ * 
+ * @return {Object} The original object with each key value pair added from the rest parameter.
  */
 function extend(object, ...objArray) {
-    each(objArray, function(element, index, array) { // loops through rest parameter objArray as an array performing another loop
-        each(element, function(value, key, obj) { // second loop going through each key in the object at each index of the array
-            object[key] = value; // assigns the new key value pair to the first object
+    each(objArray, function(element, index, array) {
+        each(element, function(value, key, obj) {
+            object[key] = value;
         });
     });
     return object;
